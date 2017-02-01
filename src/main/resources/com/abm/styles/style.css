@@ -1,0 +1,56 @@
+.connectionPane {
+}
+
+.buttonPrimary {
+    -fx-background-color: #7BBD26;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 16px;
+    -fx-border-radius: 0;
+}
+
+.buttonPrimary:hover {
+    -fx-background-color: #F7AB13;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+}
+
+.buttonSecondary {
+     -fx-background-color: #F7AB13;
+     -fx-text-fill: #FFFFFF;
+     -fx-font-size: 16px;
+     -fx-border-radius: 0;
+ }
+
+.buttonSecondary:hover {
+    -fx-background-color: #444444;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+}
+
+.buttonCancel {
+    -fx-background-color: #888888;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 16px;
+    -fx-border-radius: 0;
+}
+
+.buttonCancel:hover {
+    -fx-background-color: #F7AB13;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+}
+
+#btnCreate {
+    -fx-min-width: 200px;
+    -fx-alignment: center;
+}
+
+.invalidField {
+    -fx-text-box-border: red ;
+    -fx-focus-color: red ;
+}
+
+.clickableText:hover {
+    -fx-cursor: hand;
+    -fx-underline: true;
+}
