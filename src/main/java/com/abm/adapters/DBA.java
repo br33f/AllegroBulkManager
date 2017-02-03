@@ -37,7 +37,7 @@ public class DBA extends Adapter {
             for(String[] param : rowData) {
                 String value = param[1];
 
-                strInsert += "'" + value + "'";
+                strInsert += "?";
                 if(rowData.get(rowData.size() - 1)[1] != value) //if not last column
                     strInsert += ", ";
             }
@@ -48,6 +48,15 @@ public class DBA extends Adapter {
                 System.out.println("Zapytanie: " + strInsert);
 
             PreparedStatement s = this.dbConnection.prepareStatement(strInsert);
+
+            int i = 1;
+            for(String[] param : rowData) {
+                String value = param[1];
+                s.setString(i, value);
+
+                i++;
+            }
+
             returnedValue = !(s.execute());
         } catch (SQLException e) {
             if(super.debug == "1")
@@ -76,6 +85,10 @@ public class DBA extends Adapter {
         }
 
         return returnedValue;
+    }
+
+    public boolean deleteAll(String table) {
+        return this.delete("DELETE FROM `" + table + "` WHERE 1;");
     }
 
     /*

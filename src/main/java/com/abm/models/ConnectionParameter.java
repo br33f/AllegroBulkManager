@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleStringProperty;
  * Created by br33 on 01.02.2017.
  */
 public class ConnectionParameter {
+    public static ConnectionParameter connected;
+
     private int id;
     private SimpleStringProperty username = new SimpleStringProperty();
     private SimpleStringProperty password = new SimpleStringProperty();
