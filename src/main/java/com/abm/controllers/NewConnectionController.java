@@ -58,7 +58,7 @@ public class NewConnectionController {
         connectionManagerState.setTitle("Allegro Bulk Manager");
         connectionManagerState.setResizable(false);
 
-        ((Node)(event.getSource())).getScene().getWindow().hide();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
     private boolean isValidData() {
@@ -68,10 +68,7 @@ public class NewConnectionController {
         returnedValue &= isTextValid(inputPassword, 5);
         returnedValue &= isTextValid(inputApiKey, 5);
 
-        if (returnedValue)
-            lblValidator.setVisible(false);
-        else
-            lblValidator.setVisible(true);
+        lblValidator.setVisible(!returnedValue);
 
         return returnedValue;
     }
