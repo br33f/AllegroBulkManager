@@ -2,36 +2,103 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="panePickProducts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.abm.controllers.PickProductsPanelController">
+<Pane fx:id="panePickProducts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.112"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.abm.controllers.PickProductsPanelController">
     <children>
-        <TableView fx:id="tvProducts" layoutX="40.0" layoutY="159.0" prefHeight="510.0" prefWidth="1200.0">
-            <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-            </columns>
-        </TableView>
-        <Button fx:id="btnAll" layoutX="40.0" layoutY="124.0" mnemonicParsing="false" text="Lista produktów" />
-        <Button fx:id="btnSelected" layoutX="161.0" layoutY="124.0" mnemonicParsing="false" text="Wybrane produkty" />
-        <Button fx:id="btnSearch" layoutX="40.0" layoutY="39.0" mnemonicParsing="false" text="Wyszukaj produkty" />
-        <Separator layoutX="40.0" layoutY="107.0" prefHeight="5.0" prefWidth="1200.0" />
-        <Button fx:id="btnSynchronize" layoutX="208.0" layoutY="39.0" mnemonicParsing="false" onAction="#btnSynchronize_clickAction" text="Synchronizuj" />
-        <Button fx:id="btnProceed" layoutX="1157.0" layoutY="39.0" mnemonicParsing="false" onAction="#btnProceed_clickAction" text="Przejdź dalej" />
-      <Pane fx:id="paneLoad" layoutX="564.0" layoutY="114.0" prefHeight="46.0" prefWidth="152.0" visible="false">
-         <children>
-            <ProgressIndicator layoutX="-2.0" layoutY="6.0" prefHeight="35.0" prefWidth="32.0" />
-            <Label layoutX="41.0" layoutY="6.0" text="Ładowanie...">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
+        <Pane fx:id="paneInfos" layoutX="390.0" layoutY="32.0" prefHeight="76.0" prefWidth="500.0" visible="false">
+            <children>
+                <Label layoutX="31.0" layoutY="14.0"
+                       text="Trwa pobieranie danych z allegro. Może to potrwać kilka minut."/>
+                <ProgressBar fx:id="pbLoading" layoutX="31.0" layoutY="38.0" prefHeight="17.0" prefWidth="400.0"
+                             progress="0.0"/>
+            </children>
+        </Pane>
+        <Pane fx:id="paneOptions" prefHeight="720.0" prefWidth="1280.0">
+            <children>
+                <TabPane fx:id="tpProductList" layoutX="40.0" layoutY="144.0" prefHeight="520.0" prefWidth="1200.0"
+                         tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab fx:id="tabAll" onSelectionChanged="#tab_change" text="Wszystkie produkty">
+                            <content>
+                                <TableView fx:id="tvProducts" prefHeight="510.0" prefWidth="1200.0">
+                                    <columns>
+                                        <TableColumn prefWidth="75.0" text="ID"/>
+                                        <TableColumn prefWidth="75.0" text="Nazwa"/>
+                                    </columns>
+                                </TableView>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="tabSelected" onSelectionChanged="#tab_change" text="Wybrane produkty">
+                            <content>
+                                <TableView fx:id="tvProductsSelected" prefHeight="510.0" prefWidth="1200.0">
+                                    <columns>
+                                        <TableColumn prefWidth="75.0" text="ID"/>
+                                        <TableColumn prefWidth="75.0" text="Nazwa"/>
+                                    </columns>
+                                </TableView>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+                <Separator layoutX="40.0" layoutY="95.0" prefHeight="5.0" prefWidth="1200.0"/>
+                <Button fx:id="btnSynchronize" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="40.0"
+                        layoutY="14.0" mnemonicParsing="false" onAction="#btnSynchronize_clickAction" prefHeight="60.0"
+                        text="Synchronizuj">
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../styles/images/synchronize.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="btnProceed" layoutX="1159.0" layoutY="14.0" alignment="BOTTOM_CENTER"
+                        contentDisplay="TOP" mnemonicParsing="false"
+                        onAction="#btnProceed_clickAction" text="Przejdź dalej">
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../styles/images/proceed.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Label disable="true" layoutX="40.0" layoutY="80.0" text="wyszukiwanie">
+                    <font>
+                        <Font size="10.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="inputID" layoutX="40.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped"
+                           promptText="ID Produktu"/>
+                <TextField fx:id="inputName" layoutX="211.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped"
+                           promptText="Nazwa"/>
+                <TextField fx:id="inputCategory" layoutX="386.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped"
+                           promptText="Kategoria"/>
+                <Label layoutX="40.0" layoutY="673.0" text="Zaznaczonych produktów: "/>
+                <Label fx:id="lbSelected" layoutX="189.0" layoutY="673.0" text="Label" textFill="#ffbb00"/>
+                <Label fx:id="lbSelectAll" layoutX="257.0" layoutY="673.0" onMouseClicked="#lbSelectAll_click"
+                       styleClass="clickableText" text="Zaznacz wszystko"/>
+                <Label fx:id="lbDeselectAll" layoutX="372.0" layoutY="673.0" onMouseClicked="#lbDeselectAll_click"
+                       styleClass="clickableText" text="Odznacz wszystko"/>
+                <Button fx:id="btnAdd" disable="true" layoutX="1075.0" layoutY="672.0" mnemonicParsing="false"
+                        onAction="#btnAdd_clickAction" styleClass="buttonPrimary" text="Dodaj do wybranych"/>
+                <Button fx:id="btnRemove" disable="true" layoutX="1092.0" layoutY="672.0" mnemonicParsing="false"
+                        onAction="#btnRemove_clickAction" styleClass="buttonPrimary" text="Usuń z wybranych"
+                        visible="false"/>
+            </children>
+        </Pane>
     </children>
 </Pane>

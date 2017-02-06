@@ -27,10 +27,16 @@ public class GetAllProductsTask extends Task<Integer> {
 
         allegro = new Allegro();
 
+        int totalProductCount = allegro.getItemsCount();
+        ArrayList<Long> ids = new ArrayList<Long>();
+        ArrayList<ArrayList<String[]>> paramsContainer = new ArrayList<ArrayList<String[]>>();
+        ArrayList<SellItemStruct> items = null;
+
         int i = 0;
         boolean proceed = true;
         while (proceed) {
-            ArrayList<SellItemStruct> items = new ArrayList<SellItemStruct>();
+            updateProgress(Allegro.PORTION * i, totalProductCount);
+
             try {
                 items = allegro.getSellItems(i);
             } catch (RemoteException e1) {
@@ -40,8 +46,8 @@ public class GetAllProductsTask extends Task<Integer> {
             if (items.size() <= 0) {
                 proceed = false;
             } else {
-                ArrayList<Long> ids = new ArrayList<Long>();
-                ArrayList<ArrayList<String[]>> paramsContainer = new ArrayList<ArrayList<String[]>>();
+                ids.clear();
+                paramsContainer.clear();
 
                 for (SellItemStruct item : items) {
                     ArrayList<String[]> params = new ArrayList<String[]>();
@@ -50,11 +56,12 @@ public class GetAllProductsTask extends Task<Integer> {
 
                     ids.add(item.getItemId());
                 }
+                items = null;
 
                 paramsContainer = makeParamsFromItemsInfo(ids, paramsContainer);
 
-                for(ArrayList<String[]> params : paramsContainer) {
-                    if (!dba.addNewRow("abm_products_working", params)) {
+                for (ArrayList<String[]> parameters : paramsContainer) {
+                    if (!dba.addNewRow("abm_products_working", parameters)) {
                         return 2;
                     }
                 }
@@ -66,8 +73,9 @@ public class GetAllProductsTask extends Task<Integer> {
         return 0;
     }
 
-    private  ArrayList<ArrayList<String[]>> makeParamsFromItemsInfo(ArrayList<Long> ids, ArrayList<ArrayList<String[]>> paramsContainer) {
+    private ArrayList<ArrayList<String[]>> makeParamsFromItemsInfo(ArrayList<Long> ids, ArrayList<ArrayList<String[]>> paramsContainer) {
         ArrayList<ItemInfoStruct> itemsInfo = null;
+        ArrayList<String[]> params = null;
 
         try {
             itemsInfo = allegro.getItemsInfo(Util.convert(ids));
@@ -79,9 +87,9 @@ public class GetAllProductsTask extends Task<Integer> {
         for (ItemInfoStruct itemInfo : itemsInfo) {
             String category = "";
             int i = 1;
-            for(ItemCatList cat : itemInfo.getItemCats()) {
+            for (ItemCatList cat : itemInfo.getItemCats()) {
                 category += cat.getCatName();
-                if(i != itemInfo.getItemCats().length)
+                if (i != itemInfo.getItemCats().length)
                     category += " > ";
 
                 i++;
@@ -89,17 +97,18 @@ public class GetAllProductsTask extends Task<Integer> {
 
             String image = "";
             ItemImageList[] allImages = itemInfo.getItemImages();
-            for(ItemImageList img : allImages) {
-                if(image == "" || img.getImageType() == 1)
+            for (ItemImageList img : allImages) {
+                if (image == "" || img.getImageType() == 1)
                     image = img.getImageUrl();
             }
 
-            ArrayList<String[]> params = paramsContainer.get(nr);
-            params.add(new String[] {"id", String.valueOf(itemInfo.getItemInfo().getItId())});
-            params.add(new String[] {"name", itemInfo.getItemInfo().getItName()});
-            params.add(new String[] {"category", category});
-            params.add(new String[] {"description", itemInfo.getItemInfo().getItDescription()});
-            params.add(new String[] {"image", image});
+            params = paramsContainer.get(nr);
+            params.add(new String[]{"id", String.valueOf(itemInfo.getItemInfo().getItId())});
+            params.add(new String[]{"name", itemInfo.getItemInfo().getItName()});
+            params.add(new String[]{"category", category});
+            params.add(new String[]{"description", itemInfo.getItemInfo().getItDescription()});
+            params.add(new String[]{"image", image});
+            params.add(new String[]{"offers", String.valueOf(itemInfo.getItemInfo().getItBidCount())});
 
             nr++;
         }

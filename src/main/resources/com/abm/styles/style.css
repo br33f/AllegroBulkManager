@@ -50,6 +50,28 @@
     -fx-focus-color: red ;
 }
 
+#lbSelected {
+    -fx-color: #F7AB13;
+}
+
+#lbSelectAll {
+    -fx-color: #7BBD26;
+}
+
+#lbDeselectAll {
+    -fx-color: #7BBD26;
+}
+
+#btnSynchronize {
+    -fx-pref-height: 60px;
+    -fx-border-style: ridge;
+}
+
+#btnProceed {
+    -fx-pref-height: 60px;
+    -fx-border-style: ridge;
+}
+
 .clickableText:hover {
     -fx-cursor: hand;
     -fx-underline: true;

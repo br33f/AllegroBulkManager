@@ -1,6 +1,7 @@
 package com.abm.controllers;
 
 import com.abm.models.ConnectionParameterDAO;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,6 +58,7 @@ public class NewConnectionController {
 
         connectionManagerState.setTitle("Allegro Bulk Manager");
         connectionManagerState.setResizable(false);
+        connectionManagerState.setOnCloseRequest(e -> Platform.exit());
 
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

@@ -97,6 +97,24 @@ public class Allegro {
         return items;
     }
 
+    public int getItemsCount() throws RemoteException {
+        IntHolder prodCount = new IntHolder();
+
+        port.doGetMySellItems(sessionHandlePart.value,
+                new SortOptionsStruct(3, 1),
+                null,
+                null,
+                0,
+                null,
+                PORTION,
+                0,
+                prodCount,
+                new ArrayOfSellItemStructHolder()
+        );
+
+        return prodCount.value;
+    }
+
     public ArrayList<ItemInfoStruct> getItemsInfo(long[] ids) throws RemoteException {
         ArrayOfStructItemInfoListHolder itemsHolder = new ArrayOfStructItemInfoListHolder();
 
