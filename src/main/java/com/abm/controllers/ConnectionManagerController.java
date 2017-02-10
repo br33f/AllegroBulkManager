@@ -83,9 +83,9 @@ public class ConnectionManagerController implements Initializable {
 
     @FXML
     public void btnConnect_clickAction(ActionEvent event) {
-       ConnectionParameter.connected = lvConnections.getSelectionModel().getSelectedItem();
+        ConnectionParameter.connected = lvConnections.getSelectionModel().getSelectedItem();
 
-        Stage newConnectionStage = new Stage();
+        Stage pickProductsStage = new Stage();
 
         Parent root = null;
         try {
@@ -93,11 +93,11 @@ public class ConnectionManagerController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        newConnectionStage.setTitle("Allegro Bulk Manager");
-        newConnectionStage.setScene(new Scene(root));
-        newConnectionStage.show();
+        pickProductsStage.setTitle("Allegro Bulk Manager");
+        pickProductsStage.setScene(new Scene(root));
+        pickProductsStage.show();
 
-        newConnectionStage.setResizable(false);
+        pickProductsStage.setResizable(false);
 
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

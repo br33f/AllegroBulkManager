@@ -9,8 +9,10 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -31,8 +33,6 @@ public class PickProductsPanelController implements Initializable {
     private ObservableList<Product> selected = FXCollections.observableArrayList();
 
     @FXML
-    private Pane panePickProducts;
-    @FXML
     private Pane paneInfos;
     @FXML
     private Pane paneOptions;
@@ -48,19 +48,17 @@ public class PickProductsPanelController implements Initializable {
     private Button btnRemove;
     @FXML
     private Tab tabAll;
-
     @FXML
     private TextField inputID;
     @FXML
     private TextField inputName;
     @FXML
     private TextField inputCategory;
-
     @FXML
     private Label lbSelected;
 
     public void tab_change(Event e) {
-        if(btnAdd != null && btnRemove != null) {
+        if (btnAdd != null && btnRemove != null) {
             boolean isAllTabSelected = tabAll.isSelected();
             btnAdd.setVisible(isAllTabSelected);
             btnRemove.setVisible(!isAllTabSelected);
@@ -95,7 +93,7 @@ public class PickProductsPanelController implements Initializable {
 
     public void lbSelectAll_click(MouseEvent e) {
         TableView tableView = tvProducts;
-        if(!tabAll.isSelected())
+        if (!tabAll.isSelected())
             tableView = tvProductsSelected;
 
         if (tableView.getSelectionModel() != null) {
@@ -106,7 +104,7 @@ public class PickProductsPanelController implements Initializable {
 
     public void lbDeselectAll_click(MouseEvent e) {
         TableView tableView = tvProducts;
-        if(!tabAll.isSelected())
+        if (!tabAll.isSelected())
             tableView = tvProductsSelected;
 
         if (tableView.getSelectionModel() != null) {
@@ -120,8 +118,8 @@ public class PickProductsPanelController implements Initializable {
     }
 
     public void btnAdd_clickAction(ActionEvent e) {
-        for(Product p : (ObservableList<Product>)tvProducts.getSelectionModel().getSelectedItems()) {
-            if(!selected.contains(p)) {
+        for (Product p : (ObservableList<Product>) tvProducts.getSelectionModel().getSelectedItems()) {
+            if (!selected.contains(p)) {
                 selected.add(p);
             }
         }
@@ -140,25 +138,29 @@ public class PickProductsPanelController implements Initializable {
 
         GetAllProductsTask getAllProductsTask = new GetAllProductsTask();
         pbLoading.progressProperty().bind(getAllProductsTask.progressProperty());
-        getAllProductsTask.setOnSucceeded(c -> {
+
+        EventHandler<WorkerStateEvent> successHandler = event -> {
             loadStop();
-            System.gc();
             if (getAllProductsTask.getValue() != 0) {
                 Util.alert("Błąd podczas dodawania produktów do tabeli", "Spróbuj ponownie.");
                 throw new RuntimeException(getAllProductsTask.getException());
             } else {
                 tv_fill(tvProducts, getProducts(null));
             }
-        });
-        getAllProductsTask.setOnFailed(c -> {
+        };
+        getAllProductsTask.setOnSucceeded(successHandler);
+
+        EventHandler<WorkerStateEvent> failHandler = event -> {
             Util.alert("UPSS...", "Coś poszło nie tak.");
             loadStop();
-            System.gc();
+
             throw new RuntimeException(getAllProductsTask.getException());
-        });
-        Thread thread = new Thread(getAllProductsTask);
-        thread.start();
+        };
+        getAllProductsTask.setOnFailed(failHandler);
+
+        new Thread(getAllProductsTask).start();
     }
+
 
     private void tv_fill(TableView table, ObservableList<Product> list) {
         table.getItems().clear();
@@ -223,7 +225,7 @@ public class PickProductsPanelController implements Initializable {
     }
 
     private void updateSelectedCounter() {
-        if(tabAll.isSelected()) {
+        if (tabAll.isSelected()) {
             updateProcedure(tvProducts, btnAdd);
         } else {
             updateProcedure(tvProductsSelected, btnRemove);
