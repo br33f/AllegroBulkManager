@@ -1,8 +1,9 @@
 # AllegroBulkManager
 Masowy edytor ofert allegro, korzystający z WebAPI Allegro. 
 
+Podgląd aplikacji:
 
-![alt tag](http://vps-1035027-7321.homecloud.pl/images/abm1.png)
+![InitScreen](http://vps-1035027-7321.homecloud.pl/images/abm1.PNG)
 
-![alt tag](http://vps-1035027-7321.homecloud.pl/images/abm2.png)
+![ChooseScreen](http://vps-1035027-7321.homecloud.pl/images/abm2.PNG)
 
