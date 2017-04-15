@@ -1,8 +1,10 @@
 package com.abm.controllers;
 
+import com.abm.models.EditProductTableCell;
 import com.abm.models.Product;
 import com.abm.tasks.LoadImageViewsTask;
 import com.abm.utils.Util;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
@@ -12,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,8 +30,13 @@ public class EditPanelController implements Initializable {
     @FXML
     private Label lbLoaded;
 
+    public EditPanelController(ObservableList<Product> editProducts) {
+        this.editProducts = editProducts;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initializeEditTable();
     }
 
     private void initializeEditTable() {
@@ -39,14 +45,8 @@ public class EditPanelController implements Initializable {
         TableColumn<Product, Long> colId = new TableColumn<>("ID Produktu");
         colId.setCellValueFactory(new PropertyValueFactory<Product, Long>("id"));
 
-        TableColumn<Product, ImageView> colImage = new TableColumn<>("Zdjęcie");
-        colImage.setCellValueFactory(new PropertyValueFactory<Product, ImageView>("imageView"));
-
         TableColumn<Product, String> colName = new TableColumn<>("Nazwa");
         colName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-
-        TableColumn<Product, Long> colDescription = new TableColumn<>("Opis");
-        colDescription.setCellValueFactory(new PropertyValueFactory<Product, Long>("description"));
 
         TableColumn<Product, Float> colPrice = new TableColumn<>("Cena");
         colPrice.setCellValueFactory(new PropertyValueFactory<Product, Float>("price"));
@@ -54,11 +54,19 @@ public class EditPanelController implements Initializable {
         TableColumn<Product, Integer> colOffers = new TableColumn<>("Ofert kupna");
         colOffers.setCellValueFactory(new PropertyValueFactory<Product, Integer>("offers"));
 
-        tvEdit.getColumns().setAll(colId, colImage, colName, colDescription, colPrice, colOffers);
+        TableColumn<Product, Long> colCategory = new TableColumn<>("Kategoria");
+        colCategory.setCellValueFactory(new PropertyValueFactory<Product, Long>("category"));
+
+        TableColumn<Product, Product> colEdit = new TableColumn<>("Edycja");
+        colEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        colEdit.setCellFactory(param -> new EditProductTableCell());
+
+        tvEdit.getColumns().setAll(colId, colName, colCategory, colPrice, colOffers, colEdit);
 
         lbLoaded.setText(String.valueOf(getEditProducts().size()));
     }
 
+    @Deprecated
     private void loadTable() {
         pbLoading.setVisible(true);
 
@@ -91,11 +99,6 @@ public class EditPanelController implements Initializable {
         return editProducts;
     }
 
-    public void setEditProducts(ObservableList<Product> editProducts) {
-        this.editProducts = editProducts;
-    }
-
     public void btnFindReplace_clickAction(ActionEvent event) {
-        loadTable();
     }
 }

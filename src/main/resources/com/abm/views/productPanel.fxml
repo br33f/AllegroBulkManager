@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.HTMLEditor?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="ivProductImage" fitHeight="200.0" fitWidth="200.0" layoutX="40.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../styles/images/Picture-200.png" />
+         </image>
+      </ImageView>
+      <Separator layoutX="288.0" layoutY="40.0" orientation="VERTICAL" prefHeight="200.0" />
+      <TextField fx:id="inputName" layoutX="491.0" layoutY="45.0" prefHeight="25.0" prefWidth="750.0" />
+      <Label layoutX="306.0" layoutY="44.0" text="Nazwa produktu">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="306.0" layoutY="88.0" text="Cena">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="inputPrice" layoutX="491.0" layoutY="89.0" prefHeight="25.0" prefWidth="206.0" />
+      <HTMLEditor fx:id="htmlEditor" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" layoutX="40.0" layoutY="265.0" prefHeight="420.0" prefWidth="1200.0" />
+      <Button fx:id="btnSave" layoutX="1120.0" layoutY="711.0" mnemonicParsing="false" onAction="#btnSave_clickAction" styleClass="buttonPrimary" text="Zapisz zmiany" />
+      <Button fx:id="btnCancel" layoutX="1019.0" layoutY="711.0" mnemonicParsing="false" onAction="#btnCancel_clickAction" styleClass="buttonSecondary" text="Anuluj" />
+   </children>
+</Pane>

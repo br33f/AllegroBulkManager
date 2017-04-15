@@ -152,15 +152,15 @@ public class PickProductsPanelController implements Initializable {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/abm/views/editPanel.fxml"));
 
+        EditPanelController editPanelController = new EditPanelController(selected);
+        loader.setController(editPanelController);
+
         Pane root = null;
         try {
             root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        EditPanelController editPanelController = loader.<EditPanelController>getController();
-        editPanelController.setEditProducts(selected);
 
         editPanelStage.setTitle("Allegro Bulk Manager");
         editPanelStage.setScene(new Scene(root));
