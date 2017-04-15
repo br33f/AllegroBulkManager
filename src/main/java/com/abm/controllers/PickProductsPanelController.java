@@ -123,14 +123,14 @@ public class PickProductsPanelController implements Initializable {
                 selected.add(p);
             }
         }
-
-        tv_fill(tvProductsSelected, selected);
     }
 
     public void btnRemove_clickAction(ActionEvent e) {
-        selected.removeAll(tvProductsSelected.getSelectionModel().getSelectedItems());
-
-        tv_fill(tvProductsSelected, selected);
+        for (Product p : (ObservableList<Product>) tvProductsSelected.getSelectionModel().getSelectedItems()) {
+            if (selected.contains(p)) {
+                selected.remove(p);
+            }
+        }
     }
 
     public void btnSynchronize_clickAction(ActionEvent e) {
@@ -222,6 +222,8 @@ public class PickProductsPanelController implements Initializable {
         }, 500, 500);
 
         lbSelected.textProperty().bind(selectedCount.asString());
+
+        tv_fill(tvProductsSelected, selected);
     }
 
     private void updateSelectedCounter() {
