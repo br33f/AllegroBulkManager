@@ -1,6 +1,7 @@
 package com.abm.models;
 
 import javafx.beans.property.*;
+import javafx.scene.image.ImageView;
 
 /**
  * Created by br33 on 03.02.2017.
@@ -13,6 +14,8 @@ public class Product {
     private StringProperty description;
     private StringProperty image;
     private IntegerProperty offers;
+
+    private ImageView imageView;
 
     public Product() {
     }
@@ -109,5 +112,13 @@ public class Product {
 
     public void setOffers(int offers) {
         this.offers.set(offers);
+    }
+
+    public void buildImageView() {
+        imageView = new ImageView(image.getValueSafe());
+    }
+
+    public ImageView getImageView() {
+        return imageView;
     }
 }

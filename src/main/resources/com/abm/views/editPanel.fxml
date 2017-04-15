@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="paneEdit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.abm.controllers.EditPanelController">
+   <children>
+      <Button fx:id="btnFindReplace" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="40.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnFindReplace_clickAction" prefHeight="60.0" text="Znajdź i zastąp">
+         <graphic>
+            <ImageView fx:id="imgFindReplace" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../styles/images/findreplace.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TableView fx:id="tvEdit" layoutX="40.0" layoutY="130.0" prefHeight="550.0" prefWidth="1200.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="ID" />
+            <TableColumn prefWidth="75.0" text="Nazwa" />
+         </columns>
+      </TableView>
+      <Separator layoutX="40.0" layoutY="106.0" prefHeight="5.0" prefWidth="1200.0" />
+      <ProgressBar fx:id="pbLoading" layoutX="40.0" layoutY="114.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="11.0" prefWidth="1200.0" progress="0.0" visible="false" />
+      <Label layoutX="50.0" layoutY="683.0" text="Produktów w tabeli:" />
+      <Label fx:id="lbLoaded" layoutX="199.0" layoutY="683.0" text="Label" textFill="#ffbb00" />
+   </children>
+</Pane>

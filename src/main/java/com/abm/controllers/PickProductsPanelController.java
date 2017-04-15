@@ -14,13 +14,18 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -56,6 +61,30 @@ public class PickProductsPanelController implements Initializable {
     private TextField inputCategory;
     @FXML
     private Label lbSelected;
+    @FXML
+    private Label lblCannotProceed;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        tv_fill(tvProducts, getProducts(null));
+        tvProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            updateSelectedCounter();
+        });
+
+        (new Timer()).scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    updateSelectedCounter();
+                });
+            }
+        }, 500, 500);
+
+        lbSelected.textProperty().bind(selectedCount.asString());
+
+        tv_fill(tvProductsSelected, selected);
+    }
+
 
     public void tab_change(Event e) {
         if (btnAdd != null && btnRemove != null) {
@@ -113,8 +142,41 @@ public class PickProductsPanelController implements Initializable {
         updateSelectedCounter();
     }
 
-    public void btnProceed_clickAction(ActionEvent e) {
+    public void btnProceed_clickAction(ActionEvent event) {
+        if (!canProceed()) {
+            lblCannotProceed.setVisible(true);
+            return;
+        }
 
+        Stage editPanelStage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/abm/views/editPanel.fxml"));
+
+        Pane root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        EditPanelController editPanelController = loader.<EditPanelController>getController();
+        editPanelController.setEditProducts(selected);
+
+        editPanelStage.setTitle("Allegro Bulk Manager");
+        editPanelStage.setScene(new Scene(root));
+        editPanelStage.show();
+
+        editPanelStage.setResizable(false);
+
+        ((Node) (event.getSource())).getScene().getWindow().hide();
+    }
+
+    private boolean canProceed() {
+        if (selected != null && selected.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void btnAdd_clickAction(ActionEvent e) {
@@ -203,27 +265,6 @@ public class PickProductsPanelController implements Initializable {
     private void loadStop() {
         paneOptions.setDisable(false);
         paneInfos.setVisible(false);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        tv_fill(tvProducts, getProducts(null));
-        tvProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            updateSelectedCounter();
-        });
-
-        (new Timer()).scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    updateSelectedCounter();
-                });
-            }
-        }, 500, 500);
-
-        lbSelected.textProperty().bind(selectedCount.asString());
-
-        tv_fill(tvProductsSelected, selected);
     }
 
     private void updateSelectedCounter() {

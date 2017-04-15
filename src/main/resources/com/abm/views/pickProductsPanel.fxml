@@ -14,29 +14,24 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="panePickProducts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.112"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.abm.controllers.PickProductsPanelController">
+<Pane fx:id="panePickProducts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.abm.controllers.PickProductsPanelController">
     <children>
         <Pane fx:id="paneInfos" layoutX="390.0" layoutY="32.0" prefHeight="76.0" prefWidth="500.0" visible="false">
             <children>
-                <Label layoutX="31.0" layoutY="14.0"
-                       text="Trwa pobieranie danych z allegro. Może to potrwać kilka minut."/>
-                <ProgressBar fx:id="pbLoading" layoutX="31.0" layoutY="38.0" prefHeight="17.0" prefWidth="400.0"
-                             progress="0.0"/>
+                <Label layoutX="31.0" layoutY="14.0" text="Trwa pobieranie danych z allegro. Może to potrwać kilka minut." />
+                <ProgressBar fx:id="pbLoading" layoutX="31.0" layoutY="38.0" prefHeight="17.0" prefWidth="400.0" progress="0.0" />
             </children>
         </Pane>
         <Pane fx:id="paneOptions" prefHeight="720.0" prefWidth="1280.0">
             <children>
-                <TabPane fx:id="tpProductList" layoutX="40.0" layoutY="144.0" prefHeight="520.0" prefWidth="1200.0"
-                         tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tpProductList" layoutX="40.0" layoutY="144.0" prefHeight="520.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                         <Tab fx:id="tabAll" onSelectionChanged="#tab_change" text="Wszystkie produkty">
                             <content>
                                 <TableView fx:id="tvProducts" prefHeight="510.0" prefWidth="1200.0">
                                     <columns>
-                                        <TableColumn prefWidth="75.0" text="ID"/>
-                                        <TableColumn prefWidth="75.0" text="Nazwa"/>
+                                        <TableColumn prefWidth="75.0" text="ID" />
+                                        <TableColumn prefWidth="75.0" text="Nazwa" />
                                     </columns>
                                 </TableView>
                             </content>
@@ -45,59 +40,48 @@
                             <content>
                                 <TableView fx:id="tvProductsSelected" prefHeight="510.0" prefWidth="1200.0">
                                     <columns>
-                                        <TableColumn prefWidth="75.0" text="ID"/>
-                                        <TableColumn prefWidth="75.0" text="Nazwa"/>
+                                        <TableColumn prefWidth="75.0" text="ID" />
+                                        <TableColumn prefWidth="75.0" text="Nazwa" />
                                     </columns>
                                 </TableView>
                             </content>
                         </Tab>
                     </tabs>
                 </TabPane>
-                <Separator layoutX="40.0" layoutY="95.0" prefHeight="5.0" prefWidth="1200.0"/>
-                <Button fx:id="btnSynchronize" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="40.0"
-                        layoutY="14.0" mnemonicParsing="false" onAction="#btnSynchronize_clickAction" prefHeight="60.0"
-                        text="Synchronizuj">
+                <Separator layoutX="40.0" layoutY="95.0" prefHeight="5.0" prefWidth="1200.0" />
+                <Button fx:id="btnSynchronize" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="40.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnSynchronize_clickAction" prefHeight="60.0" text="Synchronizuj">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../styles/images/synchronize.png"/>
+                                <Image url="@../styles/images/synchronize.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnProceed" layoutX="1159.0" layoutY="14.0" alignment="BOTTOM_CENTER"
-                        contentDisplay="TOP" mnemonicParsing="false"
-                        onAction="#btnProceed_clickAction" text="Przejdź dalej">
+                <Button fx:id="btnProceed" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="1159.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnProceed_clickAction" text="Przejdź dalej">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../styles/images/proceed.png"/>
+                                <Image url="@../styles/images/proceed.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
                 <Label disable="true" layoutX="40.0" layoutY="80.0" text="wyszukiwanie">
                     <font>
-                        <Font size="10.0"/>
+                        <Font size="10.0" />
                     </font>
                 </Label>
-                <TextField fx:id="inputID" layoutX="40.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped"
-                           promptText="ID Produktu"/>
-                <TextField fx:id="inputName" layoutX="211.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped"
-                           promptText="Nazwa"/>
-                <TextField fx:id="inputCategory" layoutX="386.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped"
-                           promptText="Kategoria"/>
-                <Label layoutX="40.0" layoutY="673.0" text="Zaznaczonych produktów: "/>
-                <Label fx:id="lbSelected" layoutX="189.0" layoutY="673.0" text="Label" textFill="#ffbb00"/>
-                <Label fx:id="lbSelectAll" layoutX="257.0" layoutY="673.0" onMouseClicked="#lbSelectAll_click"
-                       styleClass="clickableText" text="Zaznacz wszystko"/>
-                <Label fx:id="lbDeselectAll" layoutX="372.0" layoutY="673.0" onMouseClicked="#lbDeselectAll_click"
-                       styleClass="clickableText" text="Odznacz wszystko"/>
-                <Button fx:id="btnAdd" disable="true" layoutX="1075.0" layoutY="672.0" mnemonicParsing="false"
-                        onAction="#btnAdd_clickAction" styleClass="buttonPrimary" text="Dodaj do wybranych"/>
-                <Button fx:id="btnRemove" disable="true" layoutX="1092.0" layoutY="672.0" mnemonicParsing="false"
-                        onAction="#btnRemove_clickAction" styleClass="buttonPrimary" text="Usuń z wybranych"
-                        visible="false"/>
+                <TextField fx:id="inputID" layoutX="40.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped" promptText="ID Produktu" />
+                <TextField fx:id="inputName" layoutX="211.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped" promptText="Nazwa" />
+                <TextField fx:id="inputCategory" layoutX="386.0" layoutY="108.0" onKeyTyped="#inputSearch_keyTyped" promptText="Kategoria" />
+                <Label layoutX="40.0" layoutY="673.0" text="Zaznaczonych produktów: " />
+                <Label fx:id="lbSelected" layoutX="189.0" layoutY="673.0" text="Label" textFill="#ffbb00" />
+                <Label fx:id="lbSelectAll" layoutX="257.0" layoutY="673.0" onMouseClicked="#lbSelectAll_click" styleClass="clickableText" text="Zaznacz wszystko" />
+                <Label fx:id="lbDeselectAll" layoutX="372.0" layoutY="673.0" onMouseClicked="#lbDeselectAll_click" styleClass="clickableText" text="Odznacz wszystko" />
+                <Button fx:id="btnAdd" disable="true" layoutX="1075.0" layoutY="672.0" mnemonicParsing="false" onAction="#btnAdd_clickAction" styleClass="buttonPrimary" text="Dodaj do wybranych" />
+                <Button fx:id="btnRemove" disable="true" layoutX="1092.0" layoutY="672.0" mnemonicParsing="false" onAction="#btnRemove_clickAction" styleClass="buttonPrimary" text="Usuń z wybranych" visible="false" />
+            <Label fx:id="lblCannotProceed" layoutX="1032.0" layoutY="79.0" text="Ups... Nie wybrano żadnych produktów." textFill="#da0000" visible="false" />
             </children>
         </Pane>
     </children>
