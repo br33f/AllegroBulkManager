@@ -70,6 +70,14 @@ public class ProductDAO {
         return items;
     }
 
+    /**
+     * Method saves given product state in database.
+     */
+    public void save(Product product) {
+        DBA dba = DBA.getInstance();
+        dba.updateRow("abm_products_working", product.toParamsArray(), new String[] {"id", String.valueOf(product.getId())});
+    }
+
     private boolean isAcceptable(Product product, ArrayList<String[]> params) {
         boolean acceptable = true;
         for(String[] param : params) {

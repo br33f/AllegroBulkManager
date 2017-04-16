@@ -3,6 +3,8 @@ package com.abm.models;
 import javafx.beans.property.*;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+
 /**
  * Created by br33 on 03.02.2017.
  */
@@ -28,6 +30,27 @@ public class Product {
         this.description = new SimpleStringProperty(description);
         this.image = new SimpleStringProperty(image);
         this.offers = new SimpleIntegerProperty(offers);
+    }
+
+    /**
+     * Method saves current product state in database.
+     */
+    public void save() {
+        ProductDAO.getInstance().save(this);
+    }
+
+    public ArrayList<String[]> toParamsArray() {
+        ArrayList<String[]> params = new ArrayList<String[]>();
+
+        params.add(new String[] {"id", String.valueOf(getId())});
+        params.add(new String[] {"name", getName()});
+        params.add(new String[] {"price", String.valueOf(getPrice())});
+        params.add(new String[] {"category", getCategory()});
+        params.add(new String[] {"description", getDescription()});
+        params.add(new String[] {"image", getImage()});
+        params.add(new String[] {"offers", String.valueOf(getOffers())});
+
+        return params;
     }
 
     public long getId() {

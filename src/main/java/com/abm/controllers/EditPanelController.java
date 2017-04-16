@@ -67,5 +67,6 @@ public class EditPanelController implements Initializable {
     }
 
     public void btnFindReplace_clickAction(ActionEvent event) {
+
     }
 }
