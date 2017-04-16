@@ -2,14 +2,10 @@ package com.abm.controllers;
 
 import com.abm.models.EditProductTableCell;
 import com.abm.models.Product;
-import com.abm.tasks.LoadImageViewsTask;
-import com.abm.utils.Util;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -64,35 +60,6 @@ public class EditPanelController implements Initializable {
         tvEdit.getColumns().setAll(colId, colName, colCategory, colPrice, colOffers, colEdit);
 
         lbLoaded.setText(String.valueOf(getEditProducts().size()));
-    }
-
-    @Deprecated
-    private void loadTable() {
-        pbLoading.setVisible(true);
-
-        LoadImageViewsTask loadImageViewsTask = new LoadImageViewsTask(editProducts);
-        pbLoading.progressProperty().bind(loadImageViewsTask.progressProperty());
-
-        EventHandler<WorkerStateEvent> successHandler = event -> {
-            pbLoading.setVisible(false);
-            if (loadImageViewsTask.getValue() != 0) {
-                Util.alert("Błąd podczas generowania obrazów.", "Spróbuj ponownie.");
-                throw new RuntimeException(loadImageViewsTask.getException());
-            } else {
-                initializeEditTable();
-            }
-        };
-        loadImageViewsTask.setOnSucceeded(successHandler);
-
-        EventHandler<WorkerStateEvent> failHandler = event -> {
-            Util.alert("UPSS...", "Coś poszło nie tak.");
-            pbLoading.setVisible(false);
-
-            throw new RuntimeException(loadImageViewsTask.getException());
-        };
-        loadImageViewsTask.setOnFailed(failHandler);
-
-        new Thread(loadImageViewsTask).start();
     }
 
     public ObservableList<Product> getEditProducts() {
